@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>연예인 닮은꼴 찾기</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/earlyaccess/notosanskr.css">
+    <style>
+        body { font-family: 'Noto Sans KR'; }
+        .contain {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #form1 {
+            width: auto;
+        }
+        .alert {
+            text-align: center;
+        }
+        #blah {
+            max-height: 256px;
+            height: auto;
+            width: auto;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 5px;
+        }
+        #img_contain {
+            border-radius: 5px;
+            margin-top: 20px;
+            width: auto;
+        }
+        .input-group {
+            margin-left: calc(calc(100vw - 320px)/2);
+            margin-top: 40px;
+            width: 320px;
+        }
+        .imgInp {
+            width: 150px;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #d3d3d3;
+        }
+        .loading {
+            animation: blinkingText ease 2.5s infinite;
+        }
+        .custom-file-label {
+            cursor: pointer;
+        }
+        /************CREDITS**************/
+        .credit {
+            font: 14px "Century Gothic", Futura, sans-serif;
+            font-size: 12px;
+            color: #3d3d3d;
+            text-align: left;
+            margin-top: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        .credit a {
+            color: gray;
+        }
+        .credit a:hover {
+            color: black;
+        }
+        .credit a:visited {
+            color: MediumPurple;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="mx-auto mt-5 text-center">연예인 닮은꼴 찾기</h1>
+    <a class="d-block mx-auto mt-2 text-center" href="https://www.youtube.com/channel/UCQNE2JmbasNYbjGAcuBiRRg">By 조코딩 유튜브 채널</a>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <div class="contain animated bounce">
+        <form id="form1" method="post" action="/face" enctype="multipart/form-data">
+            <div class="alert"></div>
+            <div id='img_contain'><img id="blah" src="http://www.clker.com/cliparts/c/W/h/n/P/W/generic-image-file-icon-hi.png" alt="your image"/>
+            </div>
+            <div class="input-group">
+                <div class="custom-file">
+                    <input name="image" type="file" accept="image/*" id="inputGroupFile01" class="imgInp custom-file-input"
+                        aria-describedby="inputGroupFileAddon01" data-maxfilesize="2000000">
+                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                </div>
+            </div>
+        </form>
+        <div class="credit">Modified using <a target="_blank"
+            href="https://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded">Ivan
+            Baev's</a> code.</div>
+        </div>
+        <button id="submit-btn"class="btn btn-primary mx-auto mt-3 d-block">닮은꼴 찾기</button>
+    <script>
+        $("#inputGroupFile01").change(function (event) {
+            readURL(this);
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                var filename = $("#inputGroupFile01").val();
+                filename = filename.substring(filename.lastIndexOf('\\') + 1);
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                    $('#blah').hide();
+                    $('#blah').fadeIn(500);
+                    $('.custom-file-label').text(filename);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        document.getElementById("inputGroupFile01").onchange = function () {
+            if(this.files[0].type.indexOf("image")==-1){
+                alert("이미지만 업로드 가능합니다.");
+                $("#inputGroupFile01").attr("src","blank");
+                return false;
+            }
+        }
+        document.getElementById("submit-btn").onclick = function () {
+            document.getElementById("form1").submit();
+        }
+    </script>
+</body>
+</html>
